@@ -36,7 +36,7 @@ function sym(...args) {
       let map = new Map();
 
       sets.forEach(set => {
-        let items = [...new Set(set)];
+        let items = [...new Set(set)]; // remove duplicates
           items.forEach(item => {
               map.set(item, (map.get(item) || 0) + 1); // use map to reduce linear searches of sym()
           });
