@@ -7,7 +7,7 @@
     - Pointers
         - Left being <= right means there is a valid range to search. 
         - Start with 0 and length - 1 as initial search space is whole list.
-        - Adding L + R will always give middle of those two numbers, when floored give halfway point of array 
+        - (L + R)  / 2 will always give middle of those two numbers, when floored give halfway point of array. 
 */
 
 function binarySearchIterative(searchList, value) {
