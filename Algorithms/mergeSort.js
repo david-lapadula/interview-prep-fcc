@@ -7,7 +7,7 @@
     - Not in place because does not use a fixed amount of additional space. New space needed is dependent on input
     - Recursive overhead means small lists might be more efficiently sorted by insertion sort
     - Left branch is pushed onto the stack first for every iteration so the tree will be handled by left branch first always
-    - Results of merge are concatenated because one side could have large numbers left over. slice() will remove everything up to index, but keep whats at that index
+    - Results of merge are concatenated because one side could have large numbers left over. slice() will remove everything before an index
 */
 
 function mergeSort(array) {
