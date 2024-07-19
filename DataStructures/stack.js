@@ -45,10 +45,10 @@ class Stack {
 
 let stack = new Stack();
 
-stack.push("BIO12");
-stack.push("HIS80");
-stack.push("MAT122");
-stack.push("PSY44");
+queue.push("BIO12");
+queue.push("HIS80");
+queue.push("MAT122");
+queue.push("PSY44");
 
-console.log(stack.pop())
-console.log(stack.pop())
+console.log(queue.pop())
+console.log(queue.pop())
