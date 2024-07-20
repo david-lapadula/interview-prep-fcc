@@ -1,8 +1,9 @@
 /*
     - Max is another way to represent full queue
     - Modulo will use remainder from max to get current item to read or write
+        - Equivalent to saying remainder after removing full queues have been written
     - this.write >= this.read + maxLength means there have been the equivalent to a full queue of writes since the last read
-        - Write cannot go a full queue size ahead of read, otherwise would overwrite data that has been read yet
+        - Write cannot go a full queue size ahead of read, otherwise would overwrite data that hasnt been read yet
     - this.read >= this.write to ensure you dont read data that hasnt been written yet 
 */
 
