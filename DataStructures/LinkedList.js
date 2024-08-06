@@ -1,7 +1,10 @@
 /*
     - Works with nodes, each node has a pointer and some data
     - O(n) access but good for adding and deleting because do not need to resize
-    - When removing, keep a pointer to previous and current (previous.next). If current is null, at then end of the list
+    - When removing, keep a pointer to previous and current (previous.next). If current is null, at the end of the list
+    - For elementAt, exiting the for loop with the next value in current, so need to terminate at i < index
+    - Define current inside loop, and then reset previous at the end to maintain reference to previous element
+    - For removeAt, iterate until node before index to keep reference to the Node previous to that which should be remove. When iteration ends, currentNode is previous and remove next node
 */
 
 class Node {
@@ -69,6 +72,67 @@ class LinkedList {
             previous = current;
         }
     }
+
+    isEmpty() {
+        return this.length() === 0;
+    }
+
+    indexOf(element) {
+        let current = this.listHead;
+        let index = 0
+
+        while (current !== null) {
+            if (current.element === element) {
+                return index;
+            }
+
+            index++;
+            current = current.next;
+        }
+
+        return -1;
+    }
+
+    elementAt(index) {
+        if (index >= this.length()) {
+            return undefined;
+        }
+
+        let current = this.listHead; 
+
+        for (let i = 0; i < index; i++) {
+            current = current.next;
+        }
+
+        return current.element;
+    }
+
+    removeAt(index) {
+        if (index < 0 || index >= this.length()) {
+            return ;
+        }
+
+        if (index === 0) {
+            let element = this.listHead.element;
+            this.listHead = this.listHead.next;
+            this.listLength--;
+            return element
+        }
+
+        let currentNode = this.listHead.next;
+        let currentIndex = 1;
+
+        while (currentIndex < index - 1) {
+            currentNode = currentNode.next;
+            currentIndex++;
+        }
+
+        let element = currentNode.next.element;
+        currentNode.next = currentNode.next.next;
+        this.listLength--;
+        return element;
+    }
+
 }
 
 
@@ -79,4 +143,5 @@ linkedList.add(3);
 linkedList.add(4);
 linkedList.add(5);
 
-linkedList.remove(4);
+console.log(linkedList.removeAt(2));
+console.log(linkedList.length());
