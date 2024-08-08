@@ -133,6 +133,37 @@ class LinkedList {
         return element;
     }
 
+    addAt(index, element) {
+        if (index < 0 || index >= this.length()) {
+            return false;
+        }
+
+        let elementNode = new Node(element);
+
+        if (index === 0) {
+            let head = this.listHead;
+            this.listHead = elementNode;
+            this.listHead.next = head;
+            this.listLength++;
+            return element
+        }
+
+        let currentNode = this.listHead.next;
+        let currentIndex = 1;
+
+        while (currentIndex < index - 1) {
+            currentNode = currentNode.next;
+            currentIndex++;
+        }
+
+        let next = currentNode.next;
+        currentNode.next = elementNode; 
+        elementNode.next = next; 
+        this.listLength++;
+
+        return element;
+    }
+
 }
 
 
@@ -143,5 +174,6 @@ linkedList.add(3);
 linkedList.add(4);
 linkedList.add(5);
 
-console.log(linkedList.removeAt(2));
+console.log(linkedList.addAt(2, 7));
+console.log(linkedList.elementAt(2));
 console.log(linkedList.length());
