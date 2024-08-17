@@ -93,6 +93,29 @@ function BinarySearchTree() {
 
 }
 
+
+function isBinarySearchTree(tree) {
+  if (!tree.root) return true;
+
+  function isBadDirection(node, direction) {
+    if (!node[direction]) return false;
+
+    return (direction === "left"
+             ? (node.value <= node.left.value)
+             : (node.value >= node.right.value)) ||
+             !isGoodTree(node[direction])
+  }
+
+  function isGoodTree(node) {
+    if (isBadDirection(node, "left")) return false;
+    if (isBadDirection(node, "right")) return false;
+    return true;
+  }
+
+  return isGoodTree(tree.root);
+}
+
+
 let binarySearchTree = new BinarySearchTree();
 binarySearchTree.add(8);
 binarySearchTree.add(3);
@@ -104,8 +127,5 @@ binarySearchTree.add(7);
 binarySearchTree.add(14);
 binarySearchTree.add(13);
 
-console.log(binarySearchTree.findMin())
-console.log(binarySearchTree.findMax())
-console.log(binarySearchTree.isPresent(7))
-console.log(binarySearchTree.isPresent(5))
+console.log(isBinarySearchTree(binarySearchTree));
 
