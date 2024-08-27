@@ -17,6 +17,16 @@
     - BFS: Add to queue and increment depth for level, when leaf is found, return depth
     - DFS: Watch return for node has one child, need to count side with child and ignore null because its not a leaf
   - Recursive function calls need to hit base case to return, so will go down left side first
+  - DFS
+    - Inorder
+      - Left, root, right
+      - Start at left most and end at right most (ascending)
+    - Preorder
+      - Root, right, left
+      - Explore all roots before leaves
+    - Postorder
+      - Left, right, root
+      - Explore all leaves before roots
 
   
 */
@@ -181,6 +191,80 @@ function BinarySearchTree() {
     return (maxHeight - minHeight) <= 1;
   }
 
+  this.inOrder = function() {
+    if (!this.root) {
+      return null;
+    }
+
+    let list = [];
+
+    function recurse(node, array) {
+
+      if (node.left) {
+         recurse(node.left, array);
+      }
+
+      array.push(node.value)
+
+      if (node.right) {
+         recurse(node.right, array);
+      }
+
+      return array; 
+    }
+
+    return recurse(this.root, list);
+  }
+
+  this.preOrder = function() {
+    if (!this.root) {
+      return null;
+    }
+
+    let list = [];
+
+    function recurse(node, array) {
+      array.push(node.value);
+
+      if (node.left) {
+         recurse(node.left, array);
+      }
+
+      if (node.right) {
+         recurse(node.right, array);
+      }
+
+      return array; 
+    }
+
+    return recurse(this.root, list);
+  }
+
+  this.postOrder = function() {
+    if (!this.root) {
+      return null;
+    }
+
+    let list = [];
+
+    function recurse(node, array) {
+
+      if (node.left) {
+         recurse(node.left, array);
+      }
+
+      if (node.right) {
+         recurse(node.right, array);
+      }
+
+      array.push(node.value);
+
+      return array; 
+    }
+
+    return recurse(this.root, list);
+  }
+
 }
 
 
@@ -211,6 +295,7 @@ binarySearchTree.add(8);
 binarySearchTree.add(3);
 binarySearchTree.add(10);
 binarySearchTree.add(2);
+binarySearchTree.add(2.5);
 binarySearchTree.add(1);
 binarySearchTree.add(6);
 binarySearchTree.add(4);
@@ -220,8 +305,8 @@ binarySearchTree.add(13);
 binarySearchTree.add(15);
 
 
-console.log(binarySearchTree.findMinHeightDFS());
-console.log(binarySearchTree.findMaxHeightDFS());
-console.log(binarySearchTree.isBalanced());
+console.log(binarySearchTree.inOrder());
+console.log(binarySearchTree.preOrder());
+console.log(binarySearchTree.postOrder());
 
 
