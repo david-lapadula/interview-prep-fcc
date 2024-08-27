@@ -27,6 +27,9 @@
     - Postorder
       - Left, right, root
       - Explore all leaves before roots
+    - BFS
+      - Use a queue. Remove first item, add value, push children into queue in order you want ( ex. L-R)
+      - The leaves will not have children and eventually the queue will be empty.
 
   
 */
@@ -265,6 +268,56 @@ function BinarySearchTree() {
     return recurse(this.root, list);
   }
 
+  this.levelOrder = function() {
+    if (!this.root) {
+      return null;
+    }
+
+    let queue = [this.root];
+    let values = [];
+
+    while (queue.length > 0) {
+      let node = queue.shift();
+
+      values.push(node.value);
+
+      if (node.left) {
+        queue.push(node.left);
+      }
+
+      if (node.right) {
+        queue.push(node.right);
+      }
+    }
+
+    return values;
+  }
+
+  this.reverseLevelOrder = function() {
+    if (!this.root) {
+      return null;
+    }
+
+    let queue = [this.root];
+    let values = [];
+
+    while (queue.length > 0) {
+      let node = queue.shift();
+
+      values.push(node.value);
+
+      if (node.right) {
+        queue.push(node.right);
+      }
+
+      if (node.left) {
+        queue.push(node.left);
+      }
+    }
+
+    return values;
+    
+  }
 }
 
 
@@ -305,8 +358,7 @@ binarySearchTree.add(13);
 binarySearchTree.add(15);
 
 
-console.log(binarySearchTree.inOrder());
-console.log(binarySearchTree.preOrder());
-console.log(binarySearchTree.postOrder());
+console.log(binarySearchTree.levelOrder());
+console.log(binarySearchTree.reverseLevelOrder());
 
 
