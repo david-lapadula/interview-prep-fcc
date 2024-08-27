@@ -318,6 +318,39 @@ function BinarySearchTree() {
     return values;
     
   }
+
+  this.remove = function(value) {
+    if (!this.root) {
+      return null;
+    }
+
+    let current = this.root;
+    let parent = null;
+    let direction = null;
+
+    while (current !== null) {
+      let currentValue = current.value;
+
+      if (currentValue === value && current.left === null && current.right === null) {
+        if (parent) {
+            parent[direction] = null;
+        } else {
+          this.root = null;
+        }
+        break; 
+      }
+
+      if (value <= currentValue) {
+        parent = current; 
+        current = current.left;
+        direction = "left";
+      } else {
+        parent = current; 
+        current = current.right;
+        direction = "right";
+      }
+    }
+  }
 }
 
 
@@ -358,7 +391,8 @@ binarySearchTree.add(13);
 binarySearchTree.add(15);
 
 
-console.log(binarySearchTree.levelOrder());
-console.log(binarySearchTree.reverseLevelOrder());
+binarySearchTree.remove(15);
+
+displayTree(binarySearchTree);
 
 
