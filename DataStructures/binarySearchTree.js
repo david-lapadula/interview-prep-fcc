@@ -30,6 +30,8 @@
     - BFS
       - Use a queue. Remove first item, add value, push children into queue in order you want ( ex. L-R)
       - The leaves will not have children and eventually the queue will be empty.
+  - Removal
+    - Setting parent.left/right to new child effectively replaces the target because it is a BST. 
 
   
 */
@@ -44,12 +46,12 @@ function Node(value) {
 function BinarySearchTree() {
   this.root = null;
 
-  this.add = function(newValue) {
+  this.add = function (newValue) {
     let newNode = new Node(newValue);
 
     if (!this.root) {
-        this.root = newNode;
-        return undefined;
+      this.root = newNode;
+      return undefined;
     }
 
     let currentNode = this.root;
@@ -70,7 +72,7 @@ function BinarySearchTree() {
     }
   }
 
-  this.findMin = function() {
+  this.findMin = function () {
 
     if (!this.root) {
       return null;
@@ -85,7 +87,7 @@ function BinarySearchTree() {
     return current.value;
   }
 
-  this.findMax = function() {
+  this.findMax = function () {
     if (!this.root) {
       return null;
     }
@@ -99,7 +101,7 @@ function BinarySearchTree() {
     return current.value;
   }
 
-  this.isPresent = function(value) {
+  this.isPresent = function (value) {
     if (!this.root) {
       return false;
     }
@@ -113,11 +115,11 @@ function BinarySearchTree() {
         current = current.right;
       }
     }
-    
+
     return !!current;
   }
 
-  this.findMinHeightBFS = function() {
+  this.findMinHeightBFS = function () {
     if (!this.root) {
       return -1;
     }
@@ -125,65 +127,65 @@ function BinarySearchTree() {
     let queue = [{ node: this.root, depth: 0 }];
 
     while (queue.length > 0) {
-        let { node, depth } = queue.shift();
+      let { node, depth } = queue.shift();
 
-        if (!node.left && !node.right) {
-            return depth;
-        }
+      if (!node.left && !node.right) {
+        return depth;
+      }
 
-        if (node.left) {
-            queue.push({ node: node.left, depth: depth + 1 });
-        }
+      if (node.left) {
+        queue.push({ node: node.left, depth: depth + 1 });
+      }
 
-        if (node.right) {
-            queue.push({ node: node.right, depth: depth + 1 });
-        }
+      if (node.right) {
+        queue.push({ node: node.right, depth: depth + 1 });
+      }
     }
-   
+
   }
 
-  this.findMinHeightDFS = function() {
+  this.findMinHeightDFS = function () {
     if (!this.root) return -1;
-  
+
     function findNodeMinHeight(node) {
-      if (!node) return 0; 
-  
+      if (!node) return 0;
+
       if (!node.left && !node.right) return 0;
 
       if (!node.left) return 1 + findNodeMinHeight(node.right);
       if (!node.right) return 1 + findNodeMinHeight(node.left);
-  
+
       return 1 + Math.min(
         findNodeMinHeight(node.left),
         findNodeMinHeight(node.right)
       );
     }
-  
+
     return findNodeMinHeight(this.root);
   }
 
 
-  this.findMaxHeightDFS = function() {
+  this.findMaxHeightDFS = function () {
     if (!this.root) return -1;
-  
+
     function findNodeMaxHeight(node) {
-      if (!node) return 0; 
-  
+      if (!node) return 0;
+
       if (!node.left && !node.right) return 0;
 
       if (!node.left) return 1 + findNodeMaxHeight(node.right);
       if (!node.right) return 1 + findNodeMaxHeight(node.left);
-  
+
       return 1 + Math.max(
         findNodeMaxHeight(node.left),
         findNodeMaxHeight(node.right)
       );
     }
-  
+
     return findNodeMaxHeight(this.root);
   }
 
-  this.isBalanced = function() {
+  this.isBalanced = function () {
     if (!this.root) {
       return true;
     }
@@ -194,7 +196,7 @@ function BinarySearchTree() {
     return (maxHeight - minHeight) <= 1;
   }
 
-  this.inOrder = function() {
+  this.inOrder = function () {
     if (!this.root) {
       return null;
     }
@@ -204,22 +206,22 @@ function BinarySearchTree() {
     function recurse(node, array) {
 
       if (node.left) {
-         recurse(node.left, array);
+        recurse(node.left, array);
       }
 
       array.push(node.value)
 
       if (node.right) {
-         recurse(node.right, array);
+        recurse(node.right, array);
       }
 
-      return array; 
+      return array;
     }
 
     return recurse(this.root, list);
   }
 
-  this.preOrder = function() {
+  this.preOrder = function () {
     if (!this.root) {
       return null;
     }
@@ -230,20 +232,20 @@ function BinarySearchTree() {
       array.push(node.value);
 
       if (node.left) {
-         recurse(node.left, array);
+        recurse(node.left, array);
       }
 
       if (node.right) {
-         recurse(node.right, array);
+        recurse(node.right, array);
       }
 
-      return array; 
+      return array;
     }
 
     return recurse(this.root, list);
   }
 
-  this.postOrder = function() {
+  this.postOrder = function () {
     if (!this.root) {
       return null;
     }
@@ -253,22 +255,22 @@ function BinarySearchTree() {
     function recurse(node, array) {
 
       if (node.left) {
-         recurse(node.left, array);
+        recurse(node.left, array);
       }
 
       if (node.right) {
-         recurse(node.right, array);
+        recurse(node.right, array);
       }
 
       array.push(node.value);
 
-      return array; 
+      return array;
     }
 
     return recurse(this.root, list);
   }
 
-  this.levelOrder = function() {
+  this.levelOrder = function () {
     if (!this.root) {
       return null;
     }
@@ -293,7 +295,7 @@ function BinarySearchTree() {
     return values;
   }
 
-  this.reverseLevelOrder = function() {
+  this.reverseLevelOrder = function () {
     if (!this.root) {
       return null;
     }
@@ -316,41 +318,68 @@ function BinarySearchTree() {
     }
 
     return values;
-    
+
   }
 
-  this.remove = function(value) {
-    if (!this.root) {
+  this.remove = function (value) {
+    if (this.root === null) {
       return null;
     }
 
-    let current = this.root;
-    let parent = null;
-    let direction = null;
+    var target = null;
+    var parent = null;
 
-    while (current !== null) {
-      let currentValue = current.value;
-
-      if (currentValue === value && current.left === null && current.right === null) {
-        if (parent) {
-            parent[direction] = null;
-        } else {
-          this.root = null;
-        }
-        break; 
-      }
-
-      if (value <= currentValue) {
-        parent = current; 
-        current = current.left;
-        direction = "left";
+    (function findValue(node = this.root) {
+      if (value === node.value) {
+        target = node;
+      } else if (value < node.value && node.left !== null) {
+        parent = node;
+        return findValue(node.left);
+      } else if (value < node.value && node.left === null) {
+        return null;
+      } else if (value > node.value && node.right !== null) {
+        parent = node;
+        return findValue(node.right);
       } else {
-        parent = current; 
-        current = current.right;
-        direction = "right";
+        return null;
       }
+    }.bind(this)());
+
+    if (target === null) {
+      return null;
     }
-  }
+
+    var children = (target.left !== null ? 1 : 0) + (target.right !== null ? 1 : 0);
+
+    if (children === 0) {
+      if (target === this.root) {
+        this.root = null;
+      } else {
+        if (parent.left === target) {
+          parent.left = null;
+        } else {
+          parent.right = null;
+        }
+      }
+    } else if (children == 1) {
+      var newChild = target.left !== null ? target.left : target.right;
+
+      if (parent === null) {
+        this.root = newChild;
+        this.root.left = null;
+        this.root.right = null;
+      } else if (newChild.value < parent.value) {
+        parent.left = newChild;
+      } else {
+        parent.right = newChild;
+      }
+    } else {
+      
+    }
+
+  };
+
+
 }
 
 
@@ -361,9 +390,9 @@ function isBinarySearchTree(tree) {
     if (!node[direction]) return false;
 
     return (direction === "left"
-             ? (node.value <= node.left.value)
-             : (node.value >= node.right.value)) ||
-             !isGoodTree(node[direction])
+      ? (node.value <= node.left.value)
+      : (node.value >= node.right.value)) ||
+      !isGoodTree(node[direction])
   }
 
   function isGoodTree(node) {
@@ -384,14 +413,13 @@ binarySearchTree.add(2);
 binarySearchTree.add(2.5);
 binarySearchTree.add(1);
 binarySearchTree.add(6);
-binarySearchTree.add(4);
 binarySearchTree.add(7);
 binarySearchTree.add(14);
 binarySearchTree.add(13);
 binarySearchTree.add(15);
 
 
-binarySearchTree.remove(15);
+binarySearchTree.remove(6);
 
 displayTree(binarySearchTree);
 
