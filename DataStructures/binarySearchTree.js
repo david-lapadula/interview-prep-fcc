@@ -32,6 +32,7 @@
       - The leaves will not have children and eventually the queue will be empty.
   - Removal
     - Setting parent.left/right to new child effectively replaces the target because it is a BST. 
+    - Remove node with two children, find smallest value in right sub tree and replace with that. This makes it bigger than everything in new left, but still smaller than everything in new right
 
   
 */
@@ -361,7 +362,7 @@ function BinarySearchTree() {
           parent.right = null;
         }
       }
-    } else if (children == 1) {
+    } else if (children === 1) {
       var newChild = target.left !== null ? target.left : target.right;
 
       if (parent === null) {
@@ -374,11 +375,24 @@ function BinarySearchTree() {
         parent.right = newChild;
       }
     } else {
-      
-    }
+        if (parent === null) {
+          this.root = target.right;
+          this.root.left = target.left;
+          return;
+        }
+        let smallest = target.right;
+
+        while (smallest !== null) {
+          smallest = smallest.left;
+        }
+
+        target.value = smallest.value;
+
+        this.remove(target);
+        
+    } 
 
   };
-
 
 }
 
@@ -409,17 +423,19 @@ let binarySearchTree = new BinarySearchTree();
 binarySearchTree.add(8);
 binarySearchTree.add(3);
 binarySearchTree.add(10);
-binarySearchTree.add(2);
-binarySearchTree.add(2.5);
-binarySearchTree.add(1);
-binarySearchTree.add(6);
-binarySearchTree.add(7);
-binarySearchTree.add(14);
-binarySearchTree.add(13);
-binarySearchTree.add(15);
+// binarySearchTree.add(2);
+// binarySearchTree.add(6);
+// binarySearchTree.add(1);
+// binarySearchTree.add(2.5);
+// binarySearchTree.add(4);
+// binarySearchTree.add(5);
+// binarySearchTree.add(7);
+// binarySearchTree.add(14);
+// binarySearchTree.add(13);
+// binarySearchTree.add(15);
 
 
-binarySearchTree.remove(6);
+binarySearchTree.remove(8);
 
 displayTree(binarySearchTree);
 
