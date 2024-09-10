@@ -33,6 +33,9 @@
   - Removal
     - Setting parent.left/right to new child effectively replaces the target because it is a BST. 
     - Remove node with two children, find smallest value in right sub tree and replace with that. This makes it bigger than everything in new left, but still smaller than everything in new right
+  - Inverting
+    - Recursively swap the children of each node. End result will be the original tree is descending order from left to right. 
+    - Inorder traversal before and after the inversion should yield the opposite lists. ASC vs DESC. 
 
   
 */
@@ -394,6 +397,27 @@ function BinarySearchTree() {
 
   };
 
+  this.invert = function() {
+    if (!this.root) {
+      return null;
+    }
+
+    function swap(node) {
+      if (!node) return null; 
+  
+      let left = node.left; 
+      let right = node.right;
+  
+      node.right = left; 
+      node.left = right; 
+  
+      swap(right);
+      swap(left);
+    }
+  
+    return swap(this.root);
+  }
+
 }
 
 
@@ -423,20 +447,20 @@ let binarySearchTree = new BinarySearchTree();
 binarySearchTree.add(8);
 binarySearchTree.add(3);
 binarySearchTree.add(10);
-// binarySearchTree.add(2);
-// binarySearchTree.add(6);
-// binarySearchTree.add(1);
-// binarySearchTree.add(2.5);
-// binarySearchTree.add(4);
-// binarySearchTree.add(5);
-// binarySearchTree.add(7);
-// binarySearchTree.add(14);
-// binarySearchTree.add(13);
-// binarySearchTree.add(15);
+binarySearchTree.add(2);
+binarySearchTree.add(6);
+binarySearchTree.add(1);
+binarySearchTree.add(2.5);
+binarySearchTree.add(4);
+binarySearchTree.add(5);
+binarySearchTree.add(7);
+binarySearchTree.add(14);
+binarySearchTree.add(13);
+binarySearchTree.add(15);
 
 
-binarySearchTree.remove(8);
-
-displayTree(binarySearchTree);
+console.log(binarySearchTree.inOrder());
+binarySearchTree.invert();
+console.log(binarySearchTree.inOrder());
 
 
