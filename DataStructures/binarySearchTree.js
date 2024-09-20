@@ -36,8 +36,6 @@
   - Inverting
     - Recursively swap the children of each node. End result will be the original tree is descending order from left to right. 
     - Inorder traversal before and after the inversion should yield the opposite lists. ASC vs DESC. 
-
-  
 */
 
 var displayTree = tree => console.log(JSON.stringify(tree, null, 2));
