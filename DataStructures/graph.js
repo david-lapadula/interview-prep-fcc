@@ -38,15 +38,24 @@
                 - Add root as first element queue.
                 - Get the first element of the queue, and then the layer for the root which is all neighbors 1 edge away
                 - Get the indices of all the neighbours
-                - For each index, which is a neighbor, if it has not been visited
+                - For each index, which is a neighbour, if it has not been visited
                     - Push it into queue
                     - Add 1 to whatever the current distance is from the root for the current item, and make that the distance at the index of the neighbour
                 - Works because each layer has indices of neighbours, and those indices match the keys of the object returned
         - DFS
+            - Stack or LIFO structure
+            - Check which node is reachable. Stack needed here because getting last unvisited, so most recent added to further down that path
+            - Strategy
+                - Get current layer, and then make an array with the neighbours
+                - Push neighbour into return if not visitied because it is reachable via current node
+                - Push neighbour onto stack if has not been visited
+                    - Because its a stack it will get the last unvisited node
+                    - Once they have all been visited the neighbours are ignored and the queue empties
+
 */
 
 
-var exBFSGraph = [
+var exGraph = [
     [0, 1, 0, 0],
     [1, 0, 1, 0],
     [0, 1, 0, 1],
@@ -85,4 +94,32 @@ function bfs(graph, root) {
     return nodesLen;
 };
 
-console.log(bfs(exBFSGraph, 1));
+function dfs(graph, root) {
+    var nodes = [root];
+    let stack = [root];
+    let current; 
+
+    while (stack.length !== 0) {
+        current = stack.pop();
+
+        let neighbours = graph[current];
+        let neighbourIndices = neighbours.reduce((accum, val, index) => {
+            if (val === 1) accum.push(index);
+            return accum;
+        }, []);
+
+
+        neighbourIndices.forEach(element => {
+            if (!nodes.includes(element)) {
+                stack.push(element);
+                nodes.push(element);
+            }
+        });
+
+    }
+
+    return nodes;
+
+}
+
+console.log(dfs(exGraph, 1));
