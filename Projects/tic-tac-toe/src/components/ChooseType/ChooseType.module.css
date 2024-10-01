@@ -1,0 +1,22 @@
+.gameTypeContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.gameTypeButton {
+  margin: 5px;
+  padding: 10px 20px;
+  background-color: #bbb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.gameTypeButton:hover {
+  background-color: white;
+  color: black;
+  transform: scale(1.05);
+}

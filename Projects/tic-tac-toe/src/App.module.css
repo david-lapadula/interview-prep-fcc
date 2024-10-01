@@ -1,0 +1,21 @@
+.container {
+    color: white;
+    background-color: black;
+    height: 50%;
+    width: 50%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gameContainer {
+    height: 80%;
+    width: 80%;
+    border: 2px solid white;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+
