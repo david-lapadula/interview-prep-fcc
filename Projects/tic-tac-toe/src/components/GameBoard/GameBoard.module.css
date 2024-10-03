@@ -1,0 +1,12 @@
+.boardContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    aspect-ratio: 1;
+    align-self: center;
+}
+
+.boardRow {
+    display: flex;
+    flex: 1;
+}

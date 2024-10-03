@@ -2,6 +2,7 @@ export const GAME_STATE = {
   CHOOSE_TYPE: 'choose_type',
   CHOOSE_LETTER: 'choose_letter',
   ACTIVE: 'active',
+  WINNER: 'winner',
 };
 
 export const GAME_TYPE = {
@@ -13,3 +14,8 @@ export const ROLE = {
   PLAYER_ONE: 'Player 1',
   PLAYER_TWO: 'Player 2'
 };
+
+export const LETTERS = {
+  X: "x",
+  O: "0"
+}
