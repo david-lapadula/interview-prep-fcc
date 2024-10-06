@@ -1,26 +1,39 @@
 import React, { useState } from 'react';
 import styles from './GameBoard.module.css';
 import Square from '../Square/Square';
+import * as constants from '../../constants';
 
 
-const GameBoard = () => {
+const GameBoard = ({ isMultiPayer, setGameState, currentPlayer, setCurrentPlayer, playerOneLetter, playerTwoLetter }) => {
     const [squares, setSquares] = useState(Array(9).fill(null));
-    const [isXNext, setIsXNext] = useState(true);
 
-    const handleClick = (index) => {
+    const handleSelectLetter = (index) => {
         const newSquares = squares.slice();
-        if (newSquares[index]) return; // Ignore click if square is already filled
+        if (newSquares[index]) return;
 
-        newSquares[index] = isXNext ? 'X' : 'O';
+        newSquares[index] = currentPlayer === constants.ROLE.PLAYER_ONE ? playerOneLetter : playerTwoLetter;
         setSquares(newSquares);
-        setIsXNext(!isXNext);
+
+        handleNextPlayer();
     };
+
+    const handleNextPlayer = () => {
+        let nextPlayer;
+
+        if (currentPlayer === constants.ROLE.PLAYER_ONE) {
+            nextPlayer = isMultiPayer ? constants.ROLE.PLAYER_TWO : constants.ROLE.COMPUTER;
+        } else {
+            nextPlayer = constants.ROLE.PLAYER_ONE;
+        }
+
+        setCurrentPlayer(nextPlayer);
+    }
 
     const renderSquare = (index) => {
         return (
             <Square
                 value={squares[index]}
-                onClick={() => handleClick(index)}
+                onClick={() => handleSelectLetter(index)}
             />
         );
     };

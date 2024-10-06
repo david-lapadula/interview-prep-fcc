@@ -12,10 +12,11 @@ export const GAME_TYPE = {
 
 export const ROLE = {
   PLAYER_ONE: 'Player 1',
-  PLAYER_TWO: 'Player 2'
+  PLAYER_TWO: 'Player 2',
+  COMPUTER: 'Computer'
 };
 
 export const LETTERS = {
-  X: "x",
-  O: "0"
+  X: "X",
+  O: "O"
 }

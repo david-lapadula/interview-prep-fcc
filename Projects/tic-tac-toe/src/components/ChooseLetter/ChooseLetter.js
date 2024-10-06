@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styles from './ChooseLetter.module.css';
 import * as constants from '../../constants';
 
 import { FaArrowLeft, FaTimes, FaRegCircle } from 'react-icons/fa';
 
-const ChooseLetter = ({ gameType, setGameState, setPlayerOneLetter, setPlayerTwoLetter }) => {
-    const isMultiPayer = gameType === constants.GAME_TYPE.MULTI_PLAYER;
+const ChooseLetter = ({ isMultiPayer, setGameState, setPlayerOneLetter, setPlayerTwoLetter, setCurrentPlayer }) => {
 
     const selectLetter = (letter) => {
         if (letter === constants.LETTERS.X) {
@@ -16,6 +15,7 @@ const ChooseLetter = ({ gameType, setGameState, setPlayerOneLetter, setPlayerTwo
             setPlayerTwoLetter(constants.LETTERS.X);
         }
 
+        setCurrentPlayer(constants.ROLE.PLAYER_ONE)
         setGameState(constants.GAME_STATE.ACTIVE);
     }; 
 
