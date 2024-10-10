@@ -10,12 +10,16 @@ const ChooseLetter = ({ isMultiPayer, setGameState, setPlayerOneLetter, setPlaye
         if (letter === constants.LETTERS.X) {
             setPlayerOneLetter(constants.LETTERS.X);
             setPlayerTwoLetter(constants.LETTERS.O);
+
+            setCurrentPlayer(constants.ROLE.PLAYER_ONE);
         } else {
             setPlayerOneLetter(constants.LETTERS.O);
             setPlayerTwoLetter(constants.LETTERS.X);
+
+            let currentPlayer = isMultiPayer ? constants.ROLE.PLAYER_TWO : constants.ROLE.COMPUTER;
+            setCurrentPlayer(currentPlayer);
         }
 
-        setCurrentPlayer(constants.ROLE.PLAYER_ONE)
         setGameState(constants.GAME_STATE.ACTIVE);
     }; 
 
