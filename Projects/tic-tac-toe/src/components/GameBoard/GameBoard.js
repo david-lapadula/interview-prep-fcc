@@ -1,9 +1,24 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './GameBoard.module.css';
 import Square from '../Square/Square';
 import * as constants from '../../constants';
 
-const GameBoard = ({ isMultiPayer, setGameState, currentPlayer, setCurrentPlayer, playerOneLetter, playerTwoLetter }) => {
+const GameBoard = ({
+    isMultiPayer,
+    setGameState,
+    gameState,
+    currentPlayer,
+    setCurrentPlayer,
+    playerOneLetter,
+    playerTwoLetter,
+    setPlayerOneScore,
+    setPlayerTwoScore,
+    setPlayerOneLetter,
+    setPlayerTwoLetter,
+    setGameOverMessage,
+    onNewGame,
+    setOnNewGame
+}) => {
     const winningCombinationIndices = [
         [0, 1, 2],
         [3, 4, 5],
@@ -20,6 +35,7 @@ const GameBoard = ({ isMultiPayer, setGameState, currentPlayer, setCurrentPlayer
     const outerIndices = [3, 1, 5, 7];
 
     const [squares, setSquares] = useState(Array(9).fill(null));
+    const [winningSquares, setWinningSquares] = useState(Array(9).fill(null));
 
     useEffect(() => {
         if (currentPlayer === constants.ROLE.COMPUTER) {
@@ -29,8 +45,10 @@ const GameBoard = ({ isMultiPayer, setGameState, currentPlayer, setCurrentPlayer
 
     useEffect(() => {
         let currentPlayerChoices = getCurrentPlayerChoices(),
-        currentPlayerOneChoices = currentPlayerChoices[playerOneLetter],
-        currentPlayerTwoChoices = currentPlayerChoices[playerTwoLetter];
+            currentPlayerOneChoices = currentPlayerChoices[playerOneLetter],
+            currentPlayerTwoChoices = currentPlayerChoices[playerTwoLetter];
+
+        let gameOver = squares.every(value => value !== null);
 
         for (let combination of winningCombinationIndices) {
             let player1Match = 0;
@@ -40,18 +58,65 @@ const GameBoard = ({ isMultiPayer, setGameState, currentPlayer, setCurrentPlayer
                 if (currentPlayerOneChoices.includes(index)) {
                     player1Match++;
                 }
-    
+
                 if (currentPlayerTwoChoices.includes(index)) {
                     player2Match++;
                 }
             });
 
-
-            console.log(combination)
-            console.log(player1Match)
-            console.log(player2Match)
+            if (player1Match < 3 && player2Match < 3 && gameOver) {
+                let drawArray = Array(9).fill(constants.LETTERS.Z);
+                setWinningSquares(drawArray);
+                setGameState(constants.GAME_STATE.OVER);
+                setGameOverMessage(`DRAW!`);
+                break;
+            } else if (player1Match === 3) {
+                let winningArray = winningSquares.map((value, index) => combination.includes(index) ? constants.LETTERS.Z : value);
+                setWinningSquares(winningArray);
+                setGameState(constants.GAME_STATE.OVER);
+                setPlayerOneScore(score => score + 1);
+                setGameOverMessage(`${constants.ROLE.PLAYER_ONE} wins!`);
+                break;
+            } else if (player2Match === 3) {
+                let winningArray = winningSquares.map((value, index) => combination.includes(index) ? constants.LETTERS.Z : value);
+                setWinningSquares(winningArray);
+                setGameState(constants.GAME_STATE.OVER);
+                setPlayerTwoScore(score => score + 1);
+                let player = isMultiPayer ? constants.ROLE.PLAYER_TWO : constants.ROLE.COMPUTER;
+                setGameOverMessage(`${player} wins!`);
+                break;
+            }
         }
+
     }, [squares]);
+
+
+    useEffect(() => {
+        if (onNewGame) {
+            newGame();
+        }
+    }, [onNewGame]);
+
+    const newGame = () => {
+        setSquares(Array(9).fill(null));
+        setWinningSquares(Array(9).fill(null));
+
+        if (playerOneLetter === constants.LETTERS.X) {
+            setPlayerOneLetter(constants.LETTERS.X);
+            setPlayerTwoLetter(constants.LETTERS.O);
+
+            setCurrentPlayer(constants.ROLE.PLAYER_ONE);
+        } else {
+            setPlayerOneLetter(constants.LETTERS.O);
+            setPlayerTwoLetter(constants.LETTERS.X);
+
+            let currentPlayer = isMultiPayer ? constants.ROLE.PLAYER_TWO : constants.ROLE.COMPUTER;
+            setCurrentPlayer(currentPlayer);
+        }
+
+        setGameState(constants.GAME_STATE.ACTIVE);
+        setOnNewGame(false);
+    };
 
     const getCurrentPlayerChoices = () => {
         let playerChoices = {
@@ -83,16 +148,11 @@ const GameBoard = ({ isMultiPayer, setGameState, currentPlayer, setCurrentPlayer
             currentPlayerTwoChoices = currentPlayerChoices[playerTwoLetter];
 
 
-        // First check if either player is 1 away from winning, check computer first
+        // First check if either player is 1 away from winning, check all choices for computer first
         for (let combination of winningCombinationIndices) {
-            let player1Match = 0;
             let player2Match = 0;
 
             combination.forEach(index => {
-                if (currentPlayerOneChoices.includes(index)) {
-                    player1Match++;
-                }
-
                 if (currentPlayerTwoChoices.includes(index)) {
                     player2Match++;
                 }
@@ -100,12 +160,30 @@ const GameBoard = ({ isMultiPayer, setGameState, currentPlayer, setCurrentPlayer
 
             if (player2Match === 2) {
                 nextIndex = combination.find(index => !currentPlayerTwoChoices.includes(index) && isNullOrUndefined(squares[index]));
-            } else if (player1Match === 2) {
-                nextIndex = combination.find(index => !currentPlayerOneChoices.includes(index) && isNullOrUndefined(squares[index]));
             }
 
             if (!isNullOrUndefined(nextIndex)) {
                 break;
+            }
+        }
+
+        if (isNullOrUndefined(nextIndex)) {
+            for (let combination of winningCombinationIndices) {
+                let player1Match = 0;
+
+                combination.forEach(index => {
+                    if (currentPlayerOneChoices.includes(index)) {
+                        player1Match++;
+                    }
+                });
+
+                if (player1Match === 2) {
+                    nextIndex = combination.find(index => !currentPlayerOneChoices.includes(index) && isNullOrUndefined(squares[index]));
+                }
+
+                if (!isNullOrUndefined(nextIndex)) {
+                    break;
+                }
             }
         }
 
@@ -165,7 +243,9 @@ const GameBoard = ({ isMultiPayer, setGameState, currentPlayer, setCurrentPlayer
         return (
             <Square
                 value={squares[index]}
+                gameOver={winningSquares[index] === constants.LETTERS.Z}
                 onClick={() => handleSelectLetter(index)}
+                disableButton={gameState === constants.GAME_STATE.OVER}
             />
         );
     };

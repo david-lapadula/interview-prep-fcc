@@ -3,16 +3,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #C0C0C0;
   border: 1px solid #999;
   font-size: 2rem;
   font-weight: bold;
   cursor: pointer;
   aspect-ratio: 1;
   box-sizing: border-box;
-  color: #333333;
   font-family: 'Courier New', Courier, monospace;
   font-size: 4em;
   font-weight: bold;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.active {
+  background-color: #C0C0C0;
+  color: #333333;
+}
+
+.gameOver {
+  background-color: #e0f7fa;
+  color: #006064; 
 }

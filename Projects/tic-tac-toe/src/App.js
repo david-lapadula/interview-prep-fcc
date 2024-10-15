@@ -13,7 +13,9 @@ function App() {
   const [playerOneLetter, setPlayerOneLetter] = useState(null);
   const [playerTwoLetter, setPlayerTwoLetter] = useState(null);
   const [playerOneScore, setPlayerOneScore] = useState(0);
-  const [playerTwoScore, setPlayeTwoScore] = useState(0);
+  const [playerTwoScore, setPlayerTwoScore] = useState(0);
+  const [gameOverMessage, setGameOverMessage] = useState('');
+  const [onNewGame, setOnNewGame] = useState(false);
 
   const handleChooseType = (gameType) => {
     setGameState(constants.GAME_STATE.CHOOSE_LETTER);
@@ -27,8 +29,12 @@ function App() {
     setPlayerOneLetter(null);
     setPlayerTwoLetter(null);
     setPlayerOneScore(0);
-    setPlayeTwoScore(0);
+    setPlayerTwoScore(0);
   };
+
+  const newGame = () => {
+    setOnNewGame(true);
+  }
 
   const isMultiPayer = gameType === constants.GAME_TYPE.MULTI_PLAYER;
 
@@ -36,7 +42,7 @@ function App() {
     <div className={styles.container}>
 
       {
-        gameState === constants.GAME_STATE.ACTIVE ?
+        [constants.GAME_STATE.ACTIVE, constants.GAME_STATE.OVER].includes(gameState) ?
           (
             <div className={styles.statusDiv}>
               <div style={{ padding: '5px 10px 5px 5px' }}>Player 1: {playerOneScore}</div>
@@ -78,14 +84,22 @@ function App() {
         }
 
         {
-          gameState === constants.GAME_STATE.ACTIVE && (
+          [constants.GAME_STATE.ACTIVE, constants.GAME_STATE.OVER].includes(gameState) && (
             <GameBoard
               isMultiPayer={isMultiPayer}
+              gameState={gameState}
               setGameState={setGameState}
               currentPlayer={currentPlayer}
               setCurrentPlayer={setCurrentPlayer}
               playerOneLetter={playerOneLetter}
               playerTwoLetter={playerTwoLetter}
+              setPlayerOneScore={setPlayerOneScore}
+              setPlayerTwoScore={setPlayerTwoScore}
+              setPlayerOneLetter={setPlayerOneLetter}
+              setPlayerTwoLetter={setPlayerTwoLetter}
+              setGameOverMessage={setGameOverMessage}
+              onNewGame={onNewGame}
+              setOnNewGame={setOnNewGame}
             />
           )
         }
@@ -101,9 +115,24 @@ function App() {
               </div>
             </div>
           ) : (
-            <div className={styles.statusDiv}></div>
+            <div></div>
           )
       }
+
+      {
+        gameState === constants.GAME_STATE.OVER ?
+          (
+            <div className={styles.statusDiv}>
+              <div style={{ marginRight: 'auto' }}>
+                {gameOverMessage}
+              </div>
+              <button className={styles.newGameButton} onClick={() => newGame()}>New Game</button>
+            </div>
+          ) : (
+            <div></div>
+          )
+      }
+
     </div>
   );
 }
