@@ -48,6 +48,10 @@ const GameBoard = ({
             currentPlayerOneChoices = currentPlayerChoices[playerOneLetter],
             currentPlayerTwoChoices = currentPlayerChoices[playerTwoLetter];
 
+        if (gameState === constants.GAME_STATE.OVER) {
+            return;
+        }
+
         let gameOver = squares.every(value => value !== null);
 
         for (let combination of winningCombinationIndices) {
@@ -147,7 +151,6 @@ const GameBoard = ({
             currentPlayerOneChoices = currentPlayerChoices[playerOneLetter],
             currentPlayerTwoChoices = currentPlayerChoices[playerTwoLetter];
 
-
         // First check if either player is 1 away from winning, check all choices for computer first
         for (let combination of winningCombinationIndices) {
             let player2Match = 0;
@@ -240,9 +243,17 @@ const GameBoard = ({
 
 
     const renderSquare = (index) => {
+        let value;
+        
+        if (gameState === constants.GAME_STATE.OVER) {
+            value = winningSquares[index] === constants.LETTERS.Z ? squares[index] : null; 
+        } else {
+            value = squares[index]
+        }
+
         return (
             <Square
-                value={squares[index]}
+                value={value}
                 gameOver={winningSquares[index] === constants.LETTERS.Z}
                 onClick={() => handleSelectLetter(index)}
                 disableButton={gameState === constants.GAME_STATE.OVER}

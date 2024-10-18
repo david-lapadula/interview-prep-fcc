@@ -5,7 +5,6 @@
     align-items: center;
 }
 
-
 .backButton {
     border: none;
     background: none;
@@ -23,7 +22,6 @@
 .backButton .icon {
     margin-right: 8px;
 }
-
 
 .backButton:hover {
     color: rgba(255, 255, 255, 1);
