@@ -1,1 +1,14 @@
 
+.game-font {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.game-setting {
+    color: black;
+    background-color: #66ff33;
+    padding: 5px;
+    margin: 2px;
+    border-radius: 2%;
+    text-align: center;
+}
+
