@@ -27,7 +27,7 @@ Clone the repository.
 
 ```bash
 git clone https://github.com/DavidLapadula/FCCInterviewPrep.git
-cd fccinterview prep
+cd fccinterviewprep
 ```
 
 ### Data Structures / Algorithms
