@@ -26,8 +26,8 @@ A comprehensive collection of resources provided by Free Code Camp to help you p
 Clone the repository. 
 
 ```bash
-git clone https://github.com/DavidLapadula/FCCInterviewPrep.git
-cd fccinterviewprep
+git clone https://github.com/DavidLapadula/interview-prep-fcc.git
+cd interview-prep-fcc
 ```
 
 ### Data Structures / Algorithms
